@@ -21,13 +21,14 @@ public class GameView extends SurfaceView {
 
     private void crateScene(){
         scene = new Scene();
-        scene.addObject(new Platform(100, 10, new Point(60, getHeight()-20), Color.RED));
+        scene.addObject(new Platform(100, 10, new Point(60, getHeight()-20), Color.BLUE));
     }
 
     private void init_method(){
         Log.i(TAG, "constructor");
         SurfaceHolder holder = getHolder();
         gameLoop = new GameLoopThread(this);
+        final GameView self = this;
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -39,6 +40,9 @@ public class GameView extends SurfaceView {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 crateScene();
+                if (gameLoop.getState() == Thread.State.TERMINATED) {
+                    gameLoop = new GameLoopThread(self);
+                }
                 gameLoop.setActive(true);
                 gameLoop.start();
             }
@@ -74,7 +78,6 @@ public class GameView extends SurfaceView {
     public GameView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-
 
     @Override
     protected void onDraw(Canvas canvas) {
