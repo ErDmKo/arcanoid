@@ -3,10 +3,13 @@ package tk.erdmko.arcanoid;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 /**
  * Created by erdmko on 21.01.15.
@@ -18,13 +21,20 @@ public class GameView extends SurfaceView {
 
     private void crateScene(){
         scene = new Scene();
-        scene.addObject(new Platform(10, getHeight() - 30, 40, getHeight() - 10, Color.RED));
+        scene.addObject(new Platform(100, 10, new Point(60, getHeight()-20), Color.RED));
     }
 
     private void init_method(){
         Log.i(TAG, "constructor");
         SurfaceHolder holder = getHolder();
         gameLoop = new GameLoopThread(this);
+        setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                scene.onTouch(event);
+                return false;
+            }
+        });
         holder.addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
@@ -64,6 +74,7 @@ public class GameView extends SurfaceView {
     public GameView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
+
 
     @Override
     protected void onDraw(Canvas canvas) {

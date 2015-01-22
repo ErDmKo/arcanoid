@@ -1,6 +1,8 @@
 package tk.erdmko.arcanoid;
 
 import android.graphics.Canvas;
+import android.graphics.Point;
+import android.view.MotionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,12 @@ public class Scene {
         for (GameObject obj : objects) {
             obj.setCanvas(c);
             obj.show();
+        }
+    }
+
+    public void onTouch(MotionEvent event) {
+        for (GameObject obj : objects) {
+            obj.onTouch(new Point((int)event.getX(), (int)event.getY()));
         }
     }
 }
