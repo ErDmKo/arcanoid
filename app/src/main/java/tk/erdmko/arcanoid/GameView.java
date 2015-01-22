@@ -1,11 +1,8 @@
 package tk.erdmko.arcanoid;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -15,21 +12,24 @@ import android.view.SurfaceView;
  * Created by erdmko on 21.01.15.
  */
 public class GameView extends SurfaceView {
-    private Bitmap bmp;
-    private SurfaceHolder holder;
     private GameLoopThread gameLoop;
+    private Scene scene;
     private static final String TAG = "gameView";
-    private int x = 0;
+
+    private void crateScene(){
+        scene = new Scene();
+        scene.addObject(new Platform(10, getHeight() - 30, 40, getHeight() - 10, Color.RED));
+    }
 
     private void init_method(){
         Log.i(TAG, "constructor");
-        holder = getHolder();
+        SurfaceHolder holder = getHolder();
         gameLoop = new GameLoopThread(this);
         holder.addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
+                crateScene();
                 gameLoop.setActive(true);
-                Log.i(TAG, "createSurface");
                 gameLoop.start();
             }
 
@@ -38,7 +38,7 @@ public class GameView extends SurfaceView {
 
             }
 
-            public void surfaceDestroyed(SurfaceHolder holder){
+            public void surfaceDestroyed(SurfaceHolder holder) {
                 boolean retry = true;
                 gameLoop.setActive(false);
                 while (retry) {
@@ -51,7 +51,6 @@ public class GameView extends SurfaceView {
                 }
             }
         });
-        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
     }
     public GameView(Context context) {
         super(context);
@@ -66,15 +65,8 @@ public class GameView extends SurfaceView {
         super(context, attrs, defStyle);
     }
 
-    private Paint paint = new Paint();
-
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawColor(Color.BLUE);
-        if (x < getWidth() - 10){
-            x += 1;
-        }
-        canvas.drawBitmap(bmp, x, x, paint);
-        Log.i(TAG, "onDraw coors " + x + " width " + getWidth());
+        scene.draw(canvas);
     }
 }
