@@ -11,6 +11,9 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+import tk.erdmko.arcanoid.objects.Ball;
+import tk.erdmko.arcanoid.objects.Platform;
+
 /**
  * Created by erdmko on 21.01.15.
  */
@@ -22,6 +25,7 @@ public class GameView extends SurfaceView {
     private void crateScene(){
         scene = new Scene();
         scene.addObject(new Platform(100, 10, new Point(60, getHeight()-20), Color.BLUE));
+        scene.addObject(new Ball(30, new Point(getWidth()/2, getHeight()/2), Color.WHITE));
     }
 
     private void init_method(){
@@ -80,7 +84,7 @@ public class GameView extends SurfaceView {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    public void onDraw(Canvas canvas) {
         scene.draw(canvas);
     }
 }
