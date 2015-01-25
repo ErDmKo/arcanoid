@@ -18,13 +18,14 @@ public class GameLoopThread extends Thread {
     public void run() {
         Log.i(TAG, "loop");
         holder = view.getHolder();
-        while (this.active) {
+        while (active) {
             Canvas c = null;
 
             try {
                 c = holder.lockCanvas();
                 synchronized (holder) {
                     view.onDraw(c);
+                    sleep(50);
                     Activity act = (Activity) view.getContext();
                     act.runOnUiThread(new Runnable() {
                         @Override
@@ -33,6 +34,8 @@ public class GameLoopThread extends Thread {
                         }
                     });
                 }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             } finally {
                 if (c != null){
                     holder.unlockCanvasAndPost(c);

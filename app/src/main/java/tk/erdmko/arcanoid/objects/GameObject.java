@@ -3,22 +3,36 @@ package tk.erdmko.arcanoid.objects;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.util.Log;
-import android.view.MotionEvent;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by erdmko on 21.01.15.
  */
 public abstract class GameObject {
-    protected int coord_left, coord_top, coord_right, coord_bottom;
-    protected static int bgColor = Color.BLUE;
+    protected float coord_left, coord_top, coord_right, coord_bottom;
     protected Canvas canvas;
-    protected Point position;
+    protected Vector2d position;
     protected Paint paint = new Paint();
+
+    public void setCollisionsObjects(List<GameObject> collisionsObjects) {
+        this.collisionsObjects = collisionsObjects;
+    }
+
+    private List<GameObject> collisionsObjects = new ArrayList<>();
     private static final String TAG = "GameObject";
+
+    public void setTestCollision(boolean testCollision) {
+        this.testCollision = testCollision;
+    }
+
+    public boolean isTestCollision() {
+        return testCollision;
+    }
+
+    private boolean testCollision = false;
 
     public void setCanvas(Canvas canvas) {
         this.canvas = canvas;
@@ -28,7 +42,7 @@ public abstract class GameObject {
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(color);
     }
-    protected GameObject(int width, int height, Point center, int color) {
+    protected GameObject(int width, int height, Vector2d center, int color) {
         this.coord_left = center.x - width/2;
         this.coord_right = this.coord_left + width;
         this.coord_top = center.y - height/2;
@@ -41,24 +55,88 @@ public abstract class GameObject {
         this.coord_top = coord_top;
         this.coord_right = coord_right;
         this.coord_bottom = coord_bottom;
-        int centerX = coord_left +(coord_right - coord_left) / 2;
-        int cenrerY = coord_top + (coord_bottom - coord_top) / 2;
-        this.position = new Point(centerX, cenrerY);
+        float centerX = coord_left + getWidth() / 2;
+        float cenrerY = coord_top + getHeight() / 2;
+        this.position = new Vector2d(centerX, cenrerY);
         setPaint(color);
+    }
+    protected float getWidth(){
+        return coord_right - coord_left;
+    }
+    protected float getHeight(){
+        return coord_bottom - coord_top;
     }
 
     protected abstract void draw();
-    public abstract void onTouch(Point p);
+    public abstract void onTouch(Vector2d v);
 
     public void show(){
+        if (testCollision){
+            testObjectsCollision();
+        }
         draw();
     }
 
-    protected void move(int dx, int dy) {
+    private void testObjectsCollision() {
+        for (GameObject obj: collisionsObjects){
+            Vector2d collisionInfo = testCollision(obj);
+            if (!this.equals(obj) && collisionInfo.len2() > 0){
+                onCollision(obj, collisionInfo);
+            }
+        }
+    }
+
+    protected void onCollision(GameObject obj, Vector2d collisionInfo) {
+        Log.i(TAG, "collision !!!!! "+this.toString()+" "+obj.toString()+" "+collisionInfo.toString());
+    }
+    protected Vector2d getCollisionSize(GameObject obj){
+        float x_collision;
+        float y_collision;
+        if (obj.coord_left < coord_left && obj.coord_right > coord_right) {
+            x_collision = getWidth();
+        } else {
+            if (coord_left < obj.coord_left) {
+                x_collision = coord_right - obj.coord_left;
+            } else {
+                x_collision = coord_left - obj.coord_right;
+            }
+        }
+        if (obj.coord_top < coord_top && obj.coord_bottom > coord_bottom) {
+            y_collision = getHeight();
+        } else {
+            if (coord_top < obj.coord_top) {
+                y_collision = coord_bottom - obj.coord_top;
+            } else {
+                y_collision = coord_top - obj.coord_bottom;
+            }
+        }
+        return new Vector2d(x_collision, y_collision);
+    }
+    public Vector2d testCollision(GameObject obj) {
+
+        if (!this.equals(obj) && coord_left < obj.coord_right &&
+            coord_right > obj.coord_left &&
+            coord_top < obj.coord_bottom &&
+            coord_bottom > obj.coord_top) {
+            return getCollisionSize(obj);
+        }
+        return new Vector2d (0, 0);
+    }
+    protected void move(Vector2d v) {
+        position.add(v);
+        float width = getWidth();
+        float height = getHeight();
+        coord_left = position.x - width/2;
+        coord_right = coord_left + width;
+        coord_bottom = position.y + height/2;
+        coord_top = coord_bottom - height;
+    }
+    protected void move(float dx, float dy) {
         this.coord_left += dx;
         this.coord_top += dy;
         this.coord_right += dx;
         this.coord_bottom += dy;
-        this.position.offset(dx, dy);
+        this.position.add(dx, dy);
     }
+
 }
