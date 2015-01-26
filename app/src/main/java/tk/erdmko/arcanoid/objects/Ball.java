@@ -38,7 +38,10 @@ public class Ball extends GameObject {
         collisionInfo.direction();
         move(speed.cpy().mul(-1));
         Vector2d oldCollision = getCollisionSize(obj).direction();
-
+        if (BallCollision.class.isInstance(obj)){
+            BallCollision gameObj = (BallCollision) obj;
+            gameObj.onBallCollision(collisionInfo, oldCollision);
+        }
         if (oldCollision.x != collisionInfo.x) {
             speed.mul(new Vector2d(-1, 1));
         } else if (oldCollision.y != collisionInfo.y){

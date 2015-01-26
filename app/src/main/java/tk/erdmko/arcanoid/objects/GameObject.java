@@ -1,7 +1,6 @@
 package tk.erdmko.arcanoid.objects;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 
@@ -107,7 +106,7 @@ public abstract class GameObject implements Cloneable {
         return obj;
     }
     protected void onCollision(GameObject obj, Vector2d collisionInfo) {
-        Log.i(TAG, "collision !!!!! "+this.toString()+" "+obj.toString()+" "+collisionInfo.toString());
+        //Log.i(TAG, "collision !!!!! "+this.toString()+" "+obj.toString()+" "+collisionInfo.toString());
     }
     protected Vector2d getCollisionSize(GameObject obj){
         float x_collision;

@@ -42,7 +42,7 @@ public class BlockArray {
             for (int j = 0; j<sizeX; j++){
 
                 try {
-                    Block block = (Block) blockPattern.clone();
+                    Block block = (GameBlock) blockPattern.clone();
                     block.setPosition(new Vector2d(colXPosition, colYPosition));
                     rowList.add(block);
                 } catch (CloneNotSupportedException e) {

@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import tk.erdmko.arcanoid.objects.BallCollision;
 import tk.erdmko.arcanoid.objects.Block;
 import tk.erdmko.arcanoid.objects.BlockArray;
 import tk.erdmko.arcanoid.objects.GameObject;
@@ -17,6 +18,7 @@ import tk.erdmko.arcanoid.objects.Vector2d;
  */
 public class Scene {
     private List<GameObject> objects = new ArrayList<>();
+    private List<GameObject> forDel = new ArrayList<>();
     private static Scene ourInstance = new Scene();
     private final static String TAG = "Scene";
 
@@ -42,7 +44,18 @@ public class Scene {
         for (GameObject obj : objects) {
             obj.setCanvas(c);
             obj.show();
+            if (BallCollision.class.isInstance(obj)) {
+                if (!((BallCollision) obj).isAlive()){
+                    forDel.add(obj);
+                }
+            }
         }
+        if (forDel.size() > 0){
+            for (GameObject obj : forDel){
+               objects.remove(obj);
+            }
+        }
+        forDel.clear();
     }
 
     public void onTouch(MotionEvent event) {

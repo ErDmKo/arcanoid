@@ -13,6 +13,7 @@ import android.view.View;
 import tk.erdmko.arcanoid.objects.Ball;
 import tk.erdmko.arcanoid.objects.Block;
 import tk.erdmko.arcanoid.objects.BlockArray;
+import tk.erdmko.arcanoid.objects.GameBlock;
 import tk.erdmko.arcanoid.objects.Platform;
 import tk.erdmko.arcanoid.objects.Vector2d;
 
@@ -26,7 +27,7 @@ public class GameView extends SurfaceView {
 
     private void crateScene() {
         scene = new Scene();
-        BlockArray blocks = new BlockArray(4, 3, new Block(100, 30, Color.GREEN), BlockArray.TOP);
+        BlockArray blocks = new BlockArray(4, 4, new GameBlock(100, 30, Color.GREEN), BlockArray.TOP);
         blocks.setSceneSize(getWidth(), getHeight());
         scene.addObject(blocks);
         scene.addObject(new Block(10, getHeight(), new Vector2d(5, getHeight()/2), Color.RED));
