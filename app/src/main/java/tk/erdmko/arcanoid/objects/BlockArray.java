@@ -1,5 +1,6 @@
 package tk.erdmko.arcanoid.objects;
 
+import android.graphics.Color;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -42,7 +43,12 @@ public class BlockArray {
             for (int j = 0; j<sizeX; j++){
 
                 try {
-                    Block block = (GameBlock) blockPattern.clone();
+                    GameBlock block = (GameBlock) blockPattern.clone();
+                    float[] hvs = new float[3];
+                    Color.colorToHSV(block.paint.getColor(), hvs);
+                    hvs[2] *= i*0.3;
+                    block.setLive(sizeY - i);
+                    block.paint.setColor(Color.HSVToColor(hvs));
                     block.setPosition(new Vector2d(colXPosition, colYPosition));
                     rowList.add(block);
                 } catch (CloneNotSupportedException e) {

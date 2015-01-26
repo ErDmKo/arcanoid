@@ -25,7 +25,7 @@ public class GameLoopThread extends Thread {
                 c = holder.lockCanvas();
                 synchronized (holder) {
                     view.onDraw(c);
-                    sleep(50);
+                    sleep(20);
                     Activity act = (Activity) view.getContext();
                     act.runOnUiThread(new Runnable() {
                         @Override

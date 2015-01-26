@@ -13,6 +13,10 @@ public class GameBlock extends Block implements BallCollision {
         super(width, height, color);
     }
 
+    public void setLive(int live) {
+        this.live = live;
+    }
+
     @Override
     public void onBallCollision(Vector2d collisionInfo, Vector2d oldCollisionInfo) {
         live -=1;

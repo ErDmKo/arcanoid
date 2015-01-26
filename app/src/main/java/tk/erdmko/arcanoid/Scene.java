@@ -54,8 +54,8 @@ public class Scene {
             for (GameObject obj : forDel){
                objects.remove(obj);
             }
+            forDel.clear();
         }
-        forDel.clear();
     }
 
     public void onTouch(MotionEvent event) {
