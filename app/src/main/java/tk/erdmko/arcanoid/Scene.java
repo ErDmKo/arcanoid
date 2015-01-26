@@ -7,6 +7,8 @@ import android.view.MotionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import tk.erdmko.arcanoid.objects.Block;
+import tk.erdmko.arcanoid.objects.BlockArray;
 import tk.erdmko.arcanoid.objects.GameObject;
 import tk.erdmko.arcanoid.objects.Vector2d;
 
@@ -21,7 +23,12 @@ public class Scene {
     public static Scene getInstance() {
         return ourInstance;
     }
-
+    public void addObject(BlockArray objList){
+        for (List<GameObject> objLIst : objList.objects)
+            for (GameObject obj: objLIst) {
+                objects.add(obj);
+            }
+    }
     public void addObject(GameObject obj) {
         objects.add(obj);
     }

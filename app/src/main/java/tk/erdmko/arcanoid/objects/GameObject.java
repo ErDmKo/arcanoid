@@ -11,43 +11,22 @@ import java.util.List;
 /**
  * Created by erdmko on 21.01.15.
  */
-public abstract class GameObject {
+public abstract class GameObject implements Cloneable {
     protected float coord_left, coord_top, coord_right, coord_bottom;
     protected Canvas canvas;
     protected Vector2d position;
     protected Paint paint = new Paint();
-
-    public void setCollisionsObjects(List<GameObject> collisionsObjects) {
-        this.collisionsObjects = collisionsObjects;
-    }
-
-    private List<GameObject> collisionsObjects = new ArrayList<>();
-    private static final String TAG = "GameObject";
-
-    public void setTestCollision(boolean testCollision) {
-        this.testCollision = testCollision;
-    }
-
-    public boolean isTestCollision() {
-        return testCollision;
-    }
-
     private boolean testCollision = false;
+    private static final String TAG = "GameObject";
+    private List<GameObject> collisionsObjects = new ArrayList<>();
 
-    public void setCanvas(Canvas canvas) {
-        this.canvas = canvas;
-    }
 
-    private void setPaint(int color){
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(color);
-    }
     protected GameObject(int width, int height, Vector2d center, int color) {
+        position = center;
         this.coord_left = center.x - width/2;
         this.coord_right = this.coord_left + width;
         this.coord_top = center.y - height/2;
         this.coord_bottom = this.coord_top + height;
-        position = center;
         setPaint(color);
     }
     protected GameObject(int coord_left, int coord_top, int coord_right, int coord_bottom, int color) {
@@ -60,6 +39,39 @@ public abstract class GameObject {
         this.position = new Vector2d(centerX, cenrerY);
         setPaint(color);
     }
+
+    public void setPosition(Vector2d position) {
+        float width = getWidth();
+        float height = getHeight();
+        this.position = position;
+        this.coord_left = position.x - width/2;
+        this.coord_right = this.coord_left + width;
+        this.coord_top = position.y - height/2;
+        this.coord_bottom = this.coord_top + height;
+    }
+
+    public void setCollisionsObjects(List<GameObject> collisionsObjects) {
+        this.collisionsObjects = collisionsObjects;
+    }
+
+
+    public void setTestCollision(boolean testCollision) {
+        this.testCollision = testCollision;
+    }
+
+    public boolean isTestCollision() {
+        return testCollision;
+    }
+
+    public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
+    }
+
+    private void setPaint(int color){
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(color);
+    }
+
     protected float getWidth(){
         return coord_right - coord_left;
     }
@@ -85,7 +97,15 @@ public abstract class GameObject {
             }
         }
     }
-
+    public GameObject clone() throws CloneNotSupportedException{
+        GameObject obj = (GameObject)super.clone();
+        obj.position = new Vector2d(position.x, position.y);
+        obj.paint = new Paint();
+        obj.paint.setStyle(Paint.Style.FILL);
+        obj.paint.setColor(paint.getColor());
+        obj.collisionsObjects = new ArrayList<>(collisionsObjects);
+        return obj;
+    }
     protected void onCollision(GameObject obj, Vector2d collisionInfo) {
         Log.i(TAG, "collision !!!!! "+this.toString()+" "+obj.toString()+" "+collisionInfo.toString());
     }
