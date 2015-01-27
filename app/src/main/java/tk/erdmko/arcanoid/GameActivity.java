@@ -1,25 +1,31 @@
 package tk.erdmko.arcanoid;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.Window;
 
+import tk.erdmko.arcanoid.game.GameView;
+import tk.erdmko.arcanoid.game.Scene;
 
-public class MainActivity extends Activity {
+
+public class GameActivity extends Activity {
     private GameView gameView;
-    private static final String TAG = "MainActivity";
-    private static final String SCENE_STATE = "sceneInfo";
+    private static final String TAG = "GameActivity";
+    public static final String SCENE_STATE = "sceneInfo";
+    public static final int RESULT_OK = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.game_activity);
         gameView = (GameView) findViewById(R.id.gameView);
-        if (savedInstanceState != null) {
-            gameView.setScene((Scene) savedInstanceState.getSerializable(SCENE_STATE));
+        Intent in = getIntent();
+        Scene scene = (Scene) in.getSerializableExtra(SCENE_STATE);
+        if (scene != null) {
+            gameView.setScene(scene);
         }
     }
 
@@ -46,5 +52,13 @@ public class MainActivity extends Activity {
     public void onPause() {
         super.onPause();
         gameView.stopLoop();
+    }
+
+    @Override
+    public void finish() {
+        Intent out = new Intent();
+        out.putExtra(SCENE_STATE, gameView.getScene());
+        setResult(RESULT_OK, out);
+        super.finish();
     }
 }

@@ -1,9 +1,8 @@
-package tk.erdmko.arcanoid;
+package tk.erdmko.arcanoid.game;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.nfc.Tag;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -11,12 +10,13 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
-import tk.erdmko.arcanoid.objects.Ball;
-import tk.erdmko.arcanoid.objects.Block;
-import tk.erdmko.arcanoid.objects.BlockArray;
-import tk.erdmko.arcanoid.objects.GameBlock;
-import tk.erdmko.arcanoid.objects.Platform;
-import tk.erdmko.arcanoid.objects.Vector2d;
+import tk.erdmko.arcanoid.game.objects.Ball;
+import tk.erdmko.arcanoid.game.objects.Block;
+import tk.erdmko.arcanoid.game.objects.BlockArray;
+import tk.erdmko.arcanoid.game.objects.GameBlock;
+import tk.erdmko.arcanoid.game.objects.Platform;
+import tk.erdmko.arcanoid.game.objects.Vector2d;
+
 
 /**
  * Created by erdmko on 21.01.15.

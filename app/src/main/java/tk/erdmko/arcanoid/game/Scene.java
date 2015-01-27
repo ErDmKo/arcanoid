@@ -1,18 +1,16 @@
-package tk.erdmko.arcanoid;
+package tk.erdmko.arcanoid.game;
 
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import tk.erdmko.arcanoid.objects.BallCollision;
-import tk.erdmko.arcanoid.objects.Block;
-import tk.erdmko.arcanoid.objects.BlockArray;
-import tk.erdmko.arcanoid.objects.GameObject;
-import tk.erdmko.arcanoid.objects.Vector2d;
+import tk.erdmko.arcanoid.game.objects.BallCollision;
+import tk.erdmko.arcanoid.game.objects.BlockArray;
+import tk.erdmko.arcanoid.game.objects.GameObject;
+import tk.erdmko.arcanoid.game.objects.Vector2d;
 
 /**
  * Created by erdmko on 21.01.15.

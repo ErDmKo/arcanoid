@@ -1,7 +1,6 @@
-package tk.erdmko.arcanoid.objects;
+package tk.erdmko.arcanoid.game.objects;
 
 import android.graphics.Canvas;
-import android.util.Log;
 
 /**
  * Created by erdmko on 22.01.15.

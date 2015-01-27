@@ -1,4 +1,4 @@
-package tk.erdmko.arcanoid.objects;
+package tk.erdmko.arcanoid.game.objects;
 
 /**
  * Created by erdmko on 26.01.15.

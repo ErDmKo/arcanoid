@@ -1,4 +1,4 @@
-package tk.erdmko.arcanoid;
+package tk.erdmko.arcanoid.game;
 
 import android.app.Activity;
 import android.graphics.Canvas;

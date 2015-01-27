@@ -1,7 +1,6 @@
-package tk.erdmko.arcanoid.objects;
+package tk.erdmko.arcanoid.game.objects;
 
 import android.graphics.Color;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;

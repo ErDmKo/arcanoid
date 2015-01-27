@@ -2,7 +2,9 @@
 <resources>
 
     <string name="app_name">arcanoid</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_menu">Simple arcanoid</string>
+    <string name="new_game_button">Start new game</string>
+    <string name="resume_game_text">Resume game</string>
 
 </resources>

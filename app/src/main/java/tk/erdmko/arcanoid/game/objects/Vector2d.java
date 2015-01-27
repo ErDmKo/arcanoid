@@ -1,4 +1,4 @@
-package tk.erdmko.arcanoid.objects;
+package tk.erdmko.arcanoid.game.objects;
 
 import java.io.Serializable;
 

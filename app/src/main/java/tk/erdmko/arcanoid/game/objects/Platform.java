@@ -1,20 +1,16 @@
-package tk.erdmko.arcanoid.objects;
+package tk.erdmko.arcanoid.game.objects;
 
 import android.graphics.Canvas;
 import android.util.Log;
 
 /**
- * Created by erdmko on 22.01.15.
+ * Created by erdmko on 21.01.15.
  */
-public class Block extends GameObject {
-    private static final String TAG = "Block";
+public class Platform extends GameObject {
 
-    public Block(int width, int height, int color) {
-        super(width, height, new Vector2d(0, 0), color);
-    }
+    private static final String TAG = "Platform";
 
-
-    public Block(int width, int height, Vector2d p, int color) {
+    public Platform(int width, int height, Vector2d p, int color) {
         super(width, height, p, color);
     }
 
@@ -29,7 +25,12 @@ public class Block extends GameObject {
 
     @Override
     public void onTouch(Vector2d v) {
-
+        this.moveTo(v.x);
     }
 
+    private void moveTo(float x) {
+        float dx;
+        dx = x - position.x;
+        move(dx, 0);
+    }
 }

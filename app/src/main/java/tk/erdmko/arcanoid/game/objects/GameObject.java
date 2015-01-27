@@ -1,8 +1,7 @@
-package tk.erdmko.arcanoid.objects;
+package tk.erdmko.arcanoid.game.objects;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -163,6 +162,7 @@ public abstract class GameObject implements Cloneable, Serializable {
     }
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
+        paint = new Paint();
         setPaint(in.readInt());
     }
 }
