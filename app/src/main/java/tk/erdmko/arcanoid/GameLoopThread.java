@@ -10,7 +10,7 @@ import android.view.SurfaceHolder;
  */
 public class GameLoopThread extends Thread {
     private GameView view;
-    private Boolean active;
+    private Boolean active = false;
     private SurfaceHolder holder;
     private static final String TAG = "GameLoopThread";
 
@@ -20,12 +20,10 @@ public class GameLoopThread extends Thread {
         holder = view.getHolder();
         while (active) {
             Canvas c = null;
-
             try {
                 c = holder.lockCanvas();
                 synchronized (holder) {
-                    view.onDraw(c);
-                    sleep(20);
+                    Thread.sleep(20);
                     Activity act = (Activity) view.getContext();
                     act.runOnUiThread(new Runnable() {
                         @Override

@@ -3,6 +3,7 @@ package tk.erdmko.arcanoid;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.nfc.Tag;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -22,10 +23,15 @@ import tk.erdmko.arcanoid.objects.Vector2d;
  */
 public class GameView extends SurfaceView {
     private GameLoopThread gameLoop;
+
+    public Scene getScene() {
+        return scene;
+    }
+
     private Scene scene;
     private static final String TAG = "gameView";
 
-    private void crateScene() {
+    private void createScene() {
         scene = new Scene();
         BlockArray blocks = new BlockArray(4, 4, new GameBlock(100, 30, Color.GREEN), BlockArray.TOP);
         blocks.setSceneSize(getWidth(), getHeight());
@@ -42,7 +48,6 @@ public class GameView extends SurfaceView {
         Log.i(TAG, "constructor");
         SurfaceHolder holder = getHolder();
         gameLoop = new GameLoopThread(this);
-        final GameView self = this;
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -53,12 +58,9 @@ public class GameView extends SurfaceView {
         holder.addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
-                crateScene();
-                if (gameLoop.getState() == Thread.State.TERMINATED) {
-                    gameLoop = new GameLoopThread(self);
+                if (scene==null) {
+                    createScene();
                 }
-                gameLoop.setActive(true);
-                gameLoop.start();
             }
 
             @Override
@@ -95,6 +97,23 @@ public class GameView extends SurfaceView {
 
     @Override
     public void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
         scene.draw(canvas);
+    }
+
+    public void startLoop() {
+        if (gameLoop.getState() == Thread.State.TERMINATED) {
+            gameLoop = new GameLoopThread(this);
+        }
+        gameLoop.setActive(true);
+        gameLoop.start();
+    }
+
+    public void stopLoop() {
+        gameLoop.setActive(false);
+    }
+
+    public void setScene(Scene scene) {
+        this.scene = scene;
     }
 }

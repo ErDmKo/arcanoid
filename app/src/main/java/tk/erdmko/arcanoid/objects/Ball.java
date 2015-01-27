@@ -1,5 +1,6 @@
 package tk.erdmko.arcanoid.objects;
 
+import android.graphics.Canvas;
 import android.util.Log;
 
 /**
@@ -22,9 +23,9 @@ public class Ball extends GameObject {
     }
 
     @Override
-    protected void draw() {
+    protected void draw(Canvas canvas) {
         move(speed);
-        this.canvas.drawCircle(position.x, position.y, radius, paint);
+        canvas.drawCircle(position.x, position.y, radius, paint);
     }
 
     @Override

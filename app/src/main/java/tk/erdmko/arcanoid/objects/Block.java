@@ -1,5 +1,6 @@
 package tk.erdmko.arcanoid.objects;
 
+import android.graphics.Canvas;
 import android.util.Log;
 
 /**
@@ -18,13 +19,12 @@ public class Block extends GameObject {
     }
 
     @Override
-    protected void draw() {
-        if (this.canvas == null) {
+    protected void draw(Canvas canvas) {
+        if (canvas == null) {
             Log.i(TAG, "No canv");
             return;
         }
-
-        this.canvas.drawRect(coord_left, coord_top, coord_right, coord_bottom, paint);
+        canvas.drawRect(coord_left, coord_top, coord_right, coord_bottom, paint);
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import tk.erdmko.arcanoid.objects.Vector2d;
 /**
  * Created by erdmko on 21.01.15.
  */
-public class Scene {
+public class Scene implements Serializable {
     private List<GameObject> objects = new ArrayList<>();
     private List<GameObject> forDel = new ArrayList<>();
     private static Scene ourInstance = new Scene();
@@ -42,8 +43,7 @@ public class Scene {
 
     public void draw(Canvas c) {
         for (GameObject obj : objects) {
-            obj.setCanvas(c);
-            obj.show();
+            obj.show(c);
             if (BallCollision.class.isInstance(obj)) {
                 if (!((BallCollision) obj).isAlive()){
                     forDel.add(obj);

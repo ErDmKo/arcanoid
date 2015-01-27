@@ -4,17 +4,20 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by erdmko on 21.01.15.
  */
-public abstract class GameObject implements Cloneable {
+public abstract class GameObject implements Cloneable, Serializable {
     protected float coord_left, coord_top, coord_right, coord_bottom;
-    protected Canvas canvas;
     protected Vector2d position;
-    protected Paint paint = new Paint();
+    protected transient Paint paint = new Paint();
     private boolean testCollision = false;
     private static final String TAG = "GameObject";
     private List<GameObject> collisionsObjects = new ArrayList<>();
@@ -62,9 +65,6 @@ public abstract class GameObject implements Cloneable {
         return testCollision;
     }
 
-    public void setCanvas(Canvas canvas) {
-        this.canvas = canvas;
-    }
 
     private void setPaint(int color){
         paint.setStyle(Paint.Style.FILL);
@@ -78,14 +78,14 @@ public abstract class GameObject implements Cloneable {
         return coord_bottom - coord_top;
     }
 
-    protected abstract void draw();
+    protected abstract void draw(Canvas canvas);
     public abstract void onTouch(Vector2d v);
 
-    public void show(){
+    public void show(Canvas canvas){
         if (testCollision){
             testObjectsCollision();
         }
-        draw();
+        draw(canvas);
     }
 
     private void testObjectsCollision() {
@@ -157,5 +157,12 @@ public abstract class GameObject implements Cloneable {
         this.coord_bottom += dy;
         this.position.add(dx, dy);
     }
-
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        out.writeInt(paint.getColor());
+    }
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        setPaint(in.readInt());
+    }
 }

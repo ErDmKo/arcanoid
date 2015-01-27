@@ -1,9 +1,11 @@
 package tk.erdmko.arcanoid.objects;
 
+import java.io.Serializable;
+
 /**
  * Created by erdmko on 22.01.15.
  */
-public class Vector2d {
+public class Vector2d implements Serializable {
     /** static temporary vector **/
     private final static Vector2d tmp = new Vector2d();
 
