@@ -6,5 +6,7 @@
     <string name="title_activity_menu">Simple arcanoid</string>
     <string name="new_game_button">Start new game</string>
     <string name="resume_game_text">Resume game</string>
-
+    <string name="score_text">Score</string>
+    <string name="game_over_text">Game over</string>
+    <string name="win_text">Win</string>
 </resources>

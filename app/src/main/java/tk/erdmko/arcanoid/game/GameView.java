@@ -32,7 +32,7 @@ public class GameView extends SurfaceView {
     private static final String TAG = "gameView";
 
     private void createScene() {
-        scene = new Scene();
+        setScene(new Scene());
         BlockArray blocks = new BlockArray(4, 4, new GameBlock(100, 30, Color.GREEN), BlockArray.TOP);
         blocks.setSceneSize(getWidth(), getHeight());
         scene.addObject(blocks);
@@ -115,5 +115,6 @@ public class GameView extends SurfaceView {
 
     public void setScene(Scene scene) {
         this.scene = scene;
+        this.scene.setR(getContext().getResources());
     }
 }
