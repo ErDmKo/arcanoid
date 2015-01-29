@@ -23,7 +23,7 @@ public class GameLoopThread extends Thread {
             try {
                 c = holder.lockCanvas();
                 synchronized (holder) {
-                    Thread.sleep(20);
+                    Thread.sleep(5);
                     Activity act = (Activity) view.getContext();
                     act.runOnUiThread(new Runnable() {
                         @Override

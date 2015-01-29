@@ -34,13 +34,12 @@ public class GameView extends SurfaceView {
     private void createScene() {
         setScene(new Scene());
         BlockArray blocks = new BlockArray(4, 4, new GameBlock(100, 30, Color.GREEN), BlockArray.TOP);
-        blocks.setSceneSize(getWidth(), getHeight());
         scene.addObject(blocks);
         scene.addObject(new Block(10, getHeight(), new Vector2d(5, getHeight()/2), Color.RED));
         scene.addObject(new Block(10, getHeight(), new Vector2d(getWidth()-5, getHeight()/2), Color.RED));
         scene.addObject(new Block(getWidth(), 10, new Vector2d(getWidth()/2, 0), Color.RED));
         scene.addObject(new Platform(100, 10, new Vector2d(60, getHeight()-20), Color.BLUE));
-        scene.addObject(new Ball(30, new Vector2d(getWidth()/2+320, getHeight()/2), Color.WHITE), true);
+        scene.addObject(new Ball(30, new Vector2d(getWidth()/2, getHeight()/2), Color.WHITE), true);
         scene.ready();
     }
 
@@ -69,16 +68,7 @@ public class GameView extends SurfaceView {
             }
 
             public void surfaceDestroyed(SurfaceHolder holder) {
-                boolean retry = true;
-                gameLoop.setActive(false);
-                while (retry) {
-                    try {
-                        gameLoop.join();
-                        retry = false;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+                stopGameLoop();
             }
         });
     }
@@ -94,11 +84,33 @@ public class GameView extends SurfaceView {
     public GameView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-
+    private void stopGameLoop (){
+        boolean retry = true;
+        gameLoop.setActive(false);
+        while (retry) {
+            try {
+                gameLoop.join();
+                retry = false;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         scene.draw(canvas);
+        if (scene.status != Scene.PANGING_STATUS) {
+            stopGameLoop();
+        }
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        if (scene != null) {
+            this.scene.setSceneSize(getWidth(), getHeight());
+        }
     }
 
     public void startLoop() {
@@ -116,5 +128,6 @@ public class GameView extends SurfaceView {
     public void setScene(Scene scene) {
         this.scene = scene;
         this.scene.setR(getContext().getResources());
+        this.scene.setSceneSize(getWidth(), getHeight());
     }
 }

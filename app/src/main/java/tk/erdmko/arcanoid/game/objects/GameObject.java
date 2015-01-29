@@ -10,11 +10,23 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import tk.erdmko.arcanoid.game.Scene;
+
 /**
  * Created by erdmko on 21.01.15.
  */
 public abstract class GameObject implements Cloneable, Serializable {
     protected float coord_left, coord_top, coord_right, coord_bottom;
+
+    public Vector2d getPosition() {
+        return position;
+    }
+
+    public void setMoveCallback(Scene.gameOverTest moveCallback) {
+        this.moveCallback = moveCallback;
+    }
+
+    private Scene.gameOverTest moveCallback;
     protected Vector2d position;
     protected transient Paint paint = new Paint();
     private boolean testCollision = false;
@@ -148,6 +160,9 @@ public abstract class GameObject implements Cloneable, Serializable {
         coord_right = coord_left + width;
         coord_bottom = position.y + height/2;
         coord_top = coord_bottom - height;
+        if (this.moveCallback != null) {
+            this.moveCallback.run();
+        }
     }
     protected void move(float dx, float dy) {
         this.coord_left += dx;
@@ -155,6 +170,9 @@ public abstract class GameObject implements Cloneable, Serializable {
         this.coord_right += dx;
         this.coord_bottom += dy;
         this.position.add(dx, dy);
+        if (this.moveCallback != null) {
+            this.moveCallback.run();
+        }
     }
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();

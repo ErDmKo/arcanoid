@@ -59,7 +59,7 @@ public class BlockArray {
         }
     }
 
-    public void setSceneSize(int width, int height) {
+    public void setSceneSize(float width, float height) {
         this.sceneSize = new Vector2d(width, height);
         addObjects();
     }
